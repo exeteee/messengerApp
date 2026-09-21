@@ -29,7 +29,9 @@ class ChatActivity : AppCompatActivity() {
         val name = intent.getStringExtra("name")
         val receiverUid = intent.getStringExtra("uid")
         val senderUid = FirebaseAuth.getInstance().currentUser?.uid
-        mDbRef = FirebaseDatabase.getInstance().reference
+        mDbRef = FirebaseDatabase.getInstance(
+            "https://messenger-app-65564-default-rtdb.europe-west1.firebasedatabase.app"
+        ).reference
 
         senderRoom = receiverUid + senderUid
         receiverRoom = senderUid + receiverUid
