@@ -16,7 +16,6 @@ class Login : AppCompatActivity() {
     private lateinit var btnSignUp: Button
     private lateinit var mAuth: FirebaseAuth
 
-    // creates login instance
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -25,35 +24,38 @@ class Login : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance()
 
+        if (mAuth.currentUser != null) {
+            startActivity(Intent(this@Login, MainActivity::class.java))
+            finish()
+            return
+        }
+
         edtEmail = findViewById(R.id.edt_email)
         edtPassword = findViewById(R.id.edt_password)
         btnLogin = findViewById(R.id.btnLogin)
         btnSignUp = findViewById(R.id.btnSignUp)
 
-        btnSignUp.setOnClickListener() {
-            val intent = Intent(this, SignUp::class.java)
-            startActivity(intent)
+        btnSignUp.setOnClickListener {
+            startActivity(Intent(this, SignUp::class.java))
         }
 
         btnLogin.setOnClickListener {
-            val email = edtEmail.text.toString()
-            val password = edtPassword.text.toString()
-
-            login(email, password)
+            login(edtEmail.text.toString(), edtPassword.text.toString())
         }
-
     }
-    // takes user input and logs in if valid
+
     private fun login(email: String, password: String) {
         mAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    val intent = Intent(this@Login, MainActivity::class.java)
+                    startActivity(Intent(this@Login, MainActivity::class.java))
                     finish()
-                    startActivity(intent)
-                }
-                else {
-                    Toast.makeText(this@Login, "User does not exist", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(
+                        this@Login,
+                        "User does not exist",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
     }
