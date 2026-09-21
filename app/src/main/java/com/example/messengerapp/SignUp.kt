@@ -60,7 +60,9 @@ class SignUp : AppCompatActivity() {
 
     // takes user data and creates a "user" in Firebase
     private fun addUserToDatabase(name: String, email: String, uid: String) {
-        mDbRef = FirebaseDatabase.getInstance().reference
+        mDbRef = FirebaseDatabase.getInstance(
+            "https://messenger-app-65564-default-rtdb.europe-west1.firebasedatabase.app"
+        ).reference
 
         mDbRef.child("user").child(uid).setValue(User(name, email, uid))
     }
