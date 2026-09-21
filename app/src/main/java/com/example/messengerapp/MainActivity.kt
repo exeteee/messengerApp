@@ -24,7 +24,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         mAuth = FirebaseAuth.getInstance()
-        mDbRef = FirebaseDatabase.getInstance().reference
+        mDbRef = FirebaseDatabase.getInstance(
+            "https://messenger-app-65564-default-rtdb.europe-west1.firebasedatabase.app"
+        ).reference
         userList = ArrayList()
         adapter = UserAdapter(this, userList)
         userRecyclerView = findViewById(R.id.userRecyclerView)
